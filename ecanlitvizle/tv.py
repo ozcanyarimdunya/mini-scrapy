@@ -20,14 +20,10 @@ class TvScrapper(BaseScrapper):
     def scrap(self, soup: BeautifulSoup):
         print('Current page: {}/{}'.format(self.current_page, '~'), end='\r')
         for channel in soup.select('ul.kanallar li'):
-            url = channel.select_one('a').attrs.get('href')
-            title = channel.select_one('.kanallaradi').get_text(strip=True)
-            logo = channel.select_one('.kanallarlogo img').attrs.get('src')
-
             yield {
-                'title': title,
-                'logo': logo,
-                'url': url,
+                'title': channel.select_one('.kanallaradi').get_text(strip=True),
+                'logo': channel.select_one('.kanallarlogo img').attrs.get('src'),
+                'url': channel.select_one('a').attrs.get('href'),
             }
 
 
