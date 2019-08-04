@@ -34,3 +34,5 @@ python any-file.py
 - **[tvyayinakisi](https://www.tvyayinakisi.com/)**
     - [rating.py](./tvyayinakisi/rating.py)
     - [streaming.py](./tvyayinakisi/streaming.py)
+- **[realpython](https://realpython.com/)**
+    - [rating.py](./realpython/all.py)
