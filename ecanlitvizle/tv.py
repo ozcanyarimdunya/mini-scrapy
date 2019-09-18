@@ -4,7 +4,8 @@ from base import BaseScrapper
 
 
 class TvScrapper(BaseScrapper):
-    url = 'https://www.ecanlitvizle.live/tv'
+    base_url = 'https://www.ecanlitvizle.live/tv'
+    url = base_url + '/tv'
     save_as_file = True
     as_json = True
     filename = 'tv.json'
