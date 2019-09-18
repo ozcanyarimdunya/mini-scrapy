@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from base import BaseScrapper
 
 
-class PoetristScrapper(BaseScrapper):
+class PoemScrapper(BaseScrapper):
     url = 'http://siir.sitesi.web.tr/nazim-hikmet/yasamaya-dair-1-2-3.html'
     as_json = True
     save_as_file = True
@@ -16,4 +16,4 @@ class PoetristScrapper(BaseScrapper):
 
 
 if __name__ == '__main__':
-    PoetristScrapper()
+    PoemScrapper()
