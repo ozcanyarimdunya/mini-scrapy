@@ -36,3 +36,6 @@ python any-file.py
     - [streaming.py](./tvyayinakisi/streaming.py)
 - **[realpython](https://realpython.com/)**
     - [rating.py](./realpython/all.py)
+- **[siirsitesi](http://siir.sitesi.web.tr/)**
+    - [poem.py](./siirsitesi/poem.py)
+    - [poetrist.py](./siirsitesi/poetrist.py)
