@@ -4,10 +4,7 @@ from base import BaseScrapper
 
 
 class RatingScrapper(BaseScrapper):
-    base_url = 'https://www.tvyayinakisi.com'
-    url = base_url + '/reyting'
-    as_json = True
-    save_as_file = True
+    url = 'https://www.tvyayinakisi.com/reyting'
     filename = 'rating.json'
 
     def scrap(self, soup: BeautifulSoup):

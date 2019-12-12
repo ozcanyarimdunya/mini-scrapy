@@ -1,47 +1,51 @@
-from abc import ABCMeta, abstractmethod
-import logging
+import json
 import requests
+from abc import ABCMeta, abstractmethod
 from bs4 import BeautifulSoup
 
-logger = logging.getLogger()
 
-
-class BaseScrapper(object):
+class BaseScrapper:
     url = None
-    data = []
-    as_json = False
+    format = 'json'
     next_selector = None
-    follow = False
     filename = None
-    save_as_file = False
-    parser = "html.parser"
-    max_result = 100
-    current_page = 1
+    max_page = 100
 
     __metaclass__ = ABCMeta
 
+    def __init__(self):
+        if not getattr(self, '_data', None):
+            self._data = []
+        if not getattr(self, '_current_page', None):
+            self._current_page = 1
+
+        scrapped_data = list(self.scrap(self.get_soup()))
+        self._data.extend(scrapped_data)
+
+        if self.get_next_url():
+            if self._current_page != self.max_page:
+                self.url = self.get_next_url()
+                self._current_page += self._current_page
+                self.reproduce(url=self.url, current_page=self._current_page)
+
+        if self.filename:
+            self.save2file()
+
     def get_url(self):
         assert self.url is not None, (
-            '`url` can not be None'
+            'You must set `url`.'
         )
-
         return self.url
 
     def get_next_selector(self):
-        assert self.follow, (
-            '`follow` need to be set as True'
-        )
         assert self.next_selector is not None, (
-            'You have set `follow` as True, so `next_selector` can not be None'
+            'You must set `next_selector`.'
         )
         return self.next_selector
 
     def get_filename(self):
-        assert self.save_as_file, (
-            '`save_as_file` need to be set as True'
-        )
         assert self.filename is not None, (
-            'You have set `save_as_file` as True, so `filename` can not be None'
+            'You must set `filename`.'
         )
         return self.filename
 
@@ -52,42 +56,31 @@ class BaseScrapper(object):
         return self.perform_request().content
 
     def get_soup(self):
-        return BeautifulSoup(self.get_html(), self.parser)
+        return BeautifulSoup(self.get_html(), "html.parser")
 
     def get_next_url(self):
         try:
             return self.get_soup().select_one(self.get_next_selector()).attrs.get('href')
-        except Exception:
+        except:
             return
+
+    def get_current_page(self):
+        return self._current_page
+
+    def get_data(self):
+        if self.format == 'json':
+            return json.dumps(self._data, ensure_ascii=False)
+        return self._data
 
     @classmethod
     def reproduce(cls, url, current_page):
         cls.url = url
-        cls.current_page = current_page
+        cls._current_page = current_page
         return cls()
 
-    def __del__(self):
-        scrapped_data = list(self.scrap(self.get_soup()))
-        self.data.extend(scrapped_data)
-
-        if self.follow:
-            if self.get_next_url():
-                if self.current_page != self.max_result:
-                    self.url = self.get_next_url()
-                    self.current_page = self.current_page + 1
-                    return self.reproduce(self.url, self.current_page)
-
-        if self.as_json:
-            from json import dumps
-            self.data = dumps(self.data, ensure_ascii=False)
-        else:
-            self.data = str(self.data)
-
-        if self.save_as_file:
-            open(self.get_filename(), 'w').write(self.get_data())
-
-    def get_data(self):
-        return self.data
+    def save2file(self):
+        with open(self.get_filename(), 'w') as fp:
+            fp.write(self.get_data())
 
     @abstractmethod
     def scrap(self, soup: BeautifulSoup):

@@ -6,14 +6,11 @@ from base import BaseScrapper
 class TheHackerNewsScrapper(BaseScrapper):
     url = 'https://thehackernews.com/'
     next_selector = '.blog-pager-older-link-mobile'
-    follow = True
     filename = 'news.json'
-    save_as_file = True
-    as_json = True
     max_result = 5
 
     def scrap(self, soup: BeautifulSoup):
-        print('Current page: {}/{}'.format(self.current_page, '~'), end='\r')
+        print('Current page: {}/{}'.format(self.get_current_page(), '~'), end='\r')
         for post in soup.select('.body-post'):
             yield {
                 'url': post.select_one('.story-link').attrs.get('href'),

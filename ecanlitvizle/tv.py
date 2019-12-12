@@ -4,12 +4,8 @@ from base import BaseScrapper
 
 
 class TvScrapper(BaseScrapper):
-    base_url = 'https://www.ecanlitvizle.live/tv'
-    url = base_url + '/tv'
-    save_as_file = True
-    as_json = True
+    url = 'https://www.ecanlitvizle.live/tv/tv'
     filename = 'tv.json'
-    follow = True
     next_selector = 'span.current'
 
     def get_next_url(self):
@@ -19,7 +15,7 @@ class TvScrapper(BaseScrapper):
             return
 
     def scrap(self, soup: BeautifulSoup):
-        print('Current page: {}/{}'.format(self.current_page, '~'), end='\r')
+        print('Current page: {}/{}'.format(self.get_current_page(), '~'), end='\r')
         for channel in soup.select('ul.kanallar li'):
             yield {
                 'title': channel.select_one('.kanallaradi').get_text(strip=True),

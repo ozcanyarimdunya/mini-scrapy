@@ -4,10 +4,7 @@ from base import BaseScrapper
 
 
 class TrendingScrapper(BaseScrapper):
-    base_url = 'https://github.com'
-    url = base_url + '/trending'
-    as_json = True
-    save_as_file = True
+    url = 'https://github.com/trending'
     filename = 'trending.json'
 
     def scrap(self, soup: BeautifulSoup):
@@ -15,7 +12,7 @@ class TrendingScrapper(BaseScrapper):
             language = trend.find('span', {'itemprop': 'programmingLanguage'})
             yield {
                 'title': trend.select_one('h1.lh-condensed a').get_text(strip=True),
-                'url': self.base_url + trend.select_one('h1.lh-condensed a').attrs.get('href'),
+                'url': 'https://github.com' + trend.select_one('h1.lh-condensed a').attrs.get('href'),
                 'stars': trend.select_one('a.muted-link.d-inline-block.mr-3').get_text(strip=True),
                 'language': language.get_text(strip=True) if language else None,
                 'description': trend.select_one('p.col-9.text-gray.my-1.pr-4').get_text(strip=True),

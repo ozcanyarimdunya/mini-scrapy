@@ -4,10 +4,7 @@ from base import BaseScrapper
 
 
 class StreamingScrapper(BaseScrapper):
-    base_url = 'https://www.tvyayinakisi.com'
-    url = base_url + '/yayinda-olanlar'
-    as_json = True
-    save_as_file = True
+    url = 'https://www.tvyayinakisi.com/yayinda-olanlar'
     filename = 'streaming.json'
 
     def scrap(self, soup: BeautifulSoup):
@@ -18,7 +15,6 @@ class StreamingScrapper(BaseScrapper):
                 'name': channel.select_one('.name span').get_text(strip=True),
                 'time': channel.select_one('p.time').get_text(strip=True),
                 'type': channel.select_one('p.type').get_text(strip=True),
-
             }
 
 

@@ -4,10 +4,7 @@ from base import BaseScrapper
 class SybScrapper(BaseScrapper):
     url = 'https://www.sezerbozkir.com/'
     next_selector = '.nav-previous a'
-    as_json = True
-    save_as_file = True
     filename = 'syb.json'
-    follow = True
     max_result = 5
 
     def scrap(self, soup):

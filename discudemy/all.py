@@ -4,12 +4,8 @@ from base import BaseScrapper
 
 
 class CourseScrapper(BaseScrapper):
-    base_url = 'https://www.discudemy.com'
-    url = base_url + '/all'
-    as_json = True
-    save_as_file = True
+    url = 'https://www.discudemy.com/all'
     filename = 'all.json'
-    follow = True
     max_result = 100
     next_selector = 'ul.pagination3 li a'
 

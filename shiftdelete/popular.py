@@ -6,8 +6,6 @@ from base import BaseScrapper
 class PopularScrapper(BaseScrapper):
     url = 'https://shiftdelete.net/enler-haber'
     filename = 'popular.json'
-    save_as_file = True
-    as_json = True
 
     def scrap(self, soup: BeautifulSoup):
         for article in soup.select('li.newone'):
