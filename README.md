@@ -39,3 +39,6 @@ python any-file.py
 - **[siirsitesi](http://siir.sitesi.web.tr/)**
     - [poem.py](./siirsitesi/poem.py)
     - [poetrist.py](./siirsitesi/poetrist.py)
+- **[diken](http://www.diken.com.tr/)**
+    - [aktuel.py](./diken/aktuel.py)
+    - [dunya.py](./diken/dunya.py)
